@@ -1,5 +1,7 @@
 package pl.discord.functionality;
 
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -13,6 +15,7 @@ public class BotFunctionality {
 
     private static final Logger logger = LoggerFactory.getLogger(BotFunctionality.class);
     private static final String jokesUrl = "https://www.dowcipy.pl/p/";
+    private static final String youtubeUrl = "https://www.youtube.com/results?search_query=";
 
     public static String randomJoke() {
         int randomPageNumber = (int) (Math.random() * 100) + 1;
@@ -30,5 +33,21 @@ public class BotFunctionality {
         return "No jokes available";
     }
 
+    // TODO: Add YouTube Link function
+
+
+
+    public static class Decider {
+        public static void decideOnMessage(String messageContent, MessageReceivedEvent event) {
+
+            if(messageContent.equals(MessageType.JOKE.getValue())){
+                TextChannel textChannel = event.getGuild().getTextChannelsByName("ogólny", false).get(0);
+                textChannel.sendTyping().queue();
+                textChannel.sendMessage(BotFunctionality.randomJoke()).queue();
+            } else {
+
+            }
+        }
+    }
 
 }
